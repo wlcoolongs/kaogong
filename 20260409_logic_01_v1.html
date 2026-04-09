@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>逻辑推理可视化</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f0f4f8; color: #1a202c; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 16px; }
+
+  h1 { text-align: center; font-size: 1.6rem; font-weight: 700; color: #2d3748; margin-bottom: 8px; }
+  .subtitle { text-align: center; color: #718096; font-size: 0.9rem; margin-bottom: 32px; }
+
+  /* 题目 */
+  .question-box {
+    background: #fff; border-radius: 12px; padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 24px;
+  }
+  .question-box h2 { font-size: 1rem; color: #4a5568; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .question-box h2::before { content: '📋'; }
+  .question-text { font-size: 0.95rem; line-height: 1.9; color: #2d3748; }
+  .condition { display: inline-block; background: #ebf8ff; border-left: 3px solid #4299e1; padding: 2px 10px; margin: 3px 0; border-radius: 0 6px 6px 0; }
+
+  /* 步骤区 */
+  .steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  @media(max-width:640px){ .steps-grid { grid-template-columns: 1fr; } }
+
+  .step-card {
+    background: #fff; border-radius: 12px; padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-top: 4px solid #667eea;
+  }
+  .step-card.green { border-top-color: #48bb78; }
+  .step-card.orange { border-top-color: #ed8936; }
+  .step-card.red { border-top-color: #fc8181; }
+
+  .step-num { font-size: 0.75rem; font-weight: 700; color: #667eea; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .step-card.green .step-num { color: #48bb78; }
+  .step-card.orange .step-num { color: #ed8936; }
+  .step-card.red .step-num { color: #fc8181; }
+
+  .step-title { font-size: 1rem; font-weight: 600; color: #2d3748; margin-bottom: 10px; }
+  .step-body { font-size: 0.88rem; color: #4a5568; line-height: 1.8; }
+  .step-body .highlight { color: #e53e3e; font-weight: 600; }
+  .step-body .ok { color: #38a169; font-weight: 600; }
+  .step-body .logic { background: #faf5ff; border: 1px solid #d6bcfa; border-radius: 6px; padding: 6px 10px; margin: 6px 0; font-family: monospace; font-size: 0.85rem; color: #553c9a; }
+
+  /* 矩阵表 */
+  .matrix-section {
+    background: #fff; border-radius: 12px; padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 24px;
+  }
+  .matrix-section h2 { font-size: 1rem; color: #4a5568; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .matrix-section h2::before { content: '📊'; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th { background: #667eea; color: white; padding: 10px 14px; text-align: center; font-weight: 600; }
+  th:first-child { background: #5a67d8; border-radius: 8px 0 0 0; }
+  th:last-child { border-radius: 0 8px 0 0; }
+  td { padding: 10px 14px; text-align: center; border-bottom: 1px solid #e2e8f0; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #f7fafc; }
+  td:first-child { font-weight: 600; color: #2d3748; background: #edf2f7 !important; }
+
+  .cell-no { color: #fc8181; font-size: 1.1rem; font-weight: 700; }
+  .cell-yes { color: #48bb78; font-size: 1.1rem; font-weight: 700; background: #f0fff4 !important; }
+  .cell-unknown { color: #a0aec0; font-size: 1rem; }
+
+  /* 推理链 */
+  .chain-section {
+    background: #fff; border-radius: 12px; padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 24px;
+  }
+  .chain-section h2 { font-size: 1rem; color: #4a5568; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .chain-section h2::before { content: '🔗'; }
+
+  .chain { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .chain-node {
+    padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  }
+  .cn-blue { background: #ebf8ff; color: #2b6cb0; border: 1.5px solid #90cdf4; }
+  .cn-green { background: #f0fff4; color: #276749; border: 1.5px solid #9ae6b4; }
+  .cn-red { background: #fff5f5; color: #c53030; border: 1.5px solid #feb2b2; }
+  .cn-purple { background: #faf5ff; color: #553c9a; border: 1.5px solid #d6bcfa; }
+  .cn-orange { background: #fffaf0; color: #c05621; border: 1.5px solid #fbd38d; }
+  .arrow { color: #a0aec0; font-size: 1.2rem; font-weight: 700; }
+  .chain-label { font-size: 0.78rem; color: #718096; margin-left: 4px; }
+
+  /* 答案 */
+  .answer-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px; padding: 28px;
+    box-shadow: 0 4px 15px rgba(102,126,234,0.4); margin-bottom: 24px;
+    color: white;
+  }
+  .answer-section h2 { font-size: 1rem; margin-bottom: 16px; opacity: 0.9; display: flex; align-items: center; gap: 8px; }
+  .answer-section h2::before { content: '🎯'; }
+  .answer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media(max-width:500px){ .answer-grid { grid-template-columns: repeat(2, 1fr); } }
+  .answer-card {
+    background: rgba(255,255,255,0.15); border-radius: 10px; padding: 16px;
+    text-align: center; backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .answer-name { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+  .answer-role { font-size: 0.85rem; opacity: 0.85; background: rgba(255,255,255,0.2); border-radius: 12px; padding: 3px 10px; display: inline-block; }
+
+  /* mermaid */
+  .mermaid-section {
+    background: #fff; border-radius: 12px; padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 24px;
+  }
+  .mermaid-section h2 { font-size: 1rem; color: #4a5568; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .mermaid-section h2::before { content: '🗺️'; }
+  .mermaid { text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>逻辑推理可视化解析</h1>
+  <p class="subtitle">张、王、李、赵四人职位分配推理</p>
+
+  <!-- 题目 -->
+  <div class="question-box">
+    <h2>题目条件</h2>
+    <div class="question-text">
+      四人（张、王、李、赵）各负责一项工作：行政管理、销售、研发、安保。<br><br>
+      <span class="condition">① 张：不做行政管理，不做安保</span><br>
+      <span class="condition">② 王：不做行政管理，不做研发</span><br>
+      <span class="condition">③ 如果张没有做研发，那么赵也没有做行政管理</span><br>
+      <span class="condition">④ 李：不做行政管理，不做安保</span><br>
+      <span class="condition">⑤ 赵：不做研发，不做安保</span>
+    </div>
+  </div>
+
+  <!-- 矩阵表 -->
+  <div class="matrix-section">
+    <h2>排除矩阵（推理过程）</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>人员</th>
+          <th>行政管理</th>
+          <th>销售</th>
+          <th>研发</th>
+          <th>安保</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>张</td>
+          <td><span class="cell-no">✗</span><br><small style="color:#a0aec0">条件①</small></td>
+          <td><span class="cell-unknown">?</span></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-no">✗</span><br><small style="color:#a0aec0">条件①</small></td>
+        </tr>
+        <tr>
+          <td>王</td>
+          <td><span class="cell-no">✗</span><br><small style="color:#a0aec0">条件②</small></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-no">✗</span><br><small style="color:#a0aec0">条件②</small></td>
+          <td><span class="cell-unknown">?</span></td>
+        </tr>
+        <tr>
+          <td>李</td>
+          <td><span class="cell-no">✗</span><br><small style="color:#a0aec0">条件④</small></td>
+          <td><span class="cell-unknown">?</span></td>
+          <td><span class="cell-unknown">?</span></td>
+          <td><span class="cell-no">✗</span><br><small style="color:#a0aec0">条件④</small></td>
+        </tr>
+        <tr>
+          <td>赵</td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-unknown">?</span></td>
+          <td><span class="cell-no">✗</span><br><small style="color:#a0aec0">条件⑤</small></td>
+          <td><span class="cell-no">✗</span><br><small style="color:#a0aec0">条件⑤</small></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 推理步骤 -->
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">Step 1 · 直接排除</div>
+      <div class="step-title">整理已知限制</div>
+      <div class="step-body">
+        由条件①②④⑤直接排除：<br>
+        <div class="logic">张 ≠ 行政、安保<br>王 ≠ 行政、研发<br>李 ≠ 行政、安保<br>赵 ≠ 研发、安保</div>
+        行政管理只剩 <span class="highlight">赵</span> 可以担任<br>
+        （张/王/李 均被排除行政）
+      </div>
+    </div>
+
+    <div class="step-card green">
+      <div class="step-num">Step 2 · 确定赵</div>
+      <div class="step-title">赵 → 行政管理</div>
+      <div class="step-body">
+        行政管理：张✗ 王✗ 李✗<br>
+        → <span class="ok">赵 = 行政管理</span> ✓<br><br>
+        由条件③逆推：<br>
+        <div class="logic">赵做了行政管理<br>→ 条件③后件为假<br>→ 前件必须为假<br>→ 张没有"没做研发"<br>→ 张 = 研发 ✓</div>
+      </div>
+    </div>
+
+    <div class="step-card orange">
+      <div class="step-num">Step 3 · 确定张</div>
+      <div class="step-title">张 → 研发</div>
+      <div class="step-body">
+        由 Step 2 推出：<span class="ok">张 = 研发</span><br><br>
+        剩余职位：销售、安保<br>
+        剩余人员：王、李<br><br>
+        由条件②：王 ≠ 研发（已满足）<br>
+        由条件④：李 ≠ 安保<br>
+        <div class="logic">李 ≠ 安保 → 李 = 销售<br>王 = 安保</div>
+      </div>
+    </div>
+
+    <div class="step-card red">
+      <div class="step-num">Step 4 · 验证</div>
+      <div class="step-title">逐条验证结论</div>
+      <div class="step-body">
+        ① 张=研发 <span class="ok">✓</span>（非行政非安保）<br>
+        ② 王=安保 <span class="ok">✓</span>（非行政非研发）<br>
+        ③ 张做研发→前件为假→条件③自动满足 <span class="ok">✓</span><br>
+        ④ 李=销售 <span class="ok">✓</span>（非行政非安保）<br>
+        ⑤ 赵=行政 <span class="ok">✓</span>（非研发非安保）<br>
+        <br>全部验证通过 🎉
+      </div>
+    </div>
+  </div>
+
+  <!-- 推理链 -->
+  <div class="chain-section">
+    <h2>推理链路</h2>
+
+    <div class="chain">
+      <span class="chain-node cn-blue">张/王/李 均≠行政</span>
+      <span class="arrow">→</span>
+      <span class="chain-node cn-green">赵 = 行政管理</span>
+      <span class="chain-label">（唯一剩余）</span>
+    </div>
+
+    <div class="chain">
+      <span class="chain-node cn-green">赵 = 行政管理</span>
+      <span class="arrow">→</span>
+      <span class="chain-node cn-purple">条件③后件为假</span>
+      <span class="arrow">→</span>
+      <span class="chain-node cn-purple">前件必须为假</span>
+      <span class="arrow">→</span>
+      <span class="chain-node cn-green">张 = 研发</span>
+    </div>
+
+    <div class="chain">
+      <span class="chain-node cn-green">张 = 研发</span>
+      <span class="arrow">+</span>
+      <span class="chain-node cn-blue">李 ≠ 安保（条件④）</span>
+      <span class="arrow">→</span>
+      <span class="chain-node cn-green">李 = 销售</span>
+      <span class="arrow">→</span>
+      <span class="chain-node cn-green">王 = 安保</span>
+    </div>
+  </div>
+
+  <!-- Mermaid 流程图 -->
+  <div class="mermaid-section">
+    <h2>推理流程图</h2>
+    <div class="mermaid">
+graph TD
+    A["🚀 开始推理"] --> B["行政管理候选人？"]
+    B --> C{"张✗ 王✗ 李✗"}
+    C --> D["✅ 赵 = 行政管理"]
+    D --> E["验证条件③\n赵做行政→后件为假"]
+    E --> F{"前件必须为假\n即张没有不做研发"}
+    F --> G["✅ 张 = 研发"]
+    G --> H["剩余：销售、安保\n剩余人：王、李"]
+    H --> I{"李 ≠ 安保（条件④）"}
+    I --> J["✅ 李 = 销售"]
+    J --> K["✅ 王 = 安保"]
+    K --> L["🎯 推理完成"]
+
+    style D fill:#c6f6d5,stroke:#38a169,color:#276749
+    style G fill:#c6f6d5,stroke:#38a169,color:#276749
+    style J fill:#c6f6d5,stroke:#38a169,color:#276749
+    style K fill:#c6f6d5,stroke:#38a169,color:#276749
+    style L fill:#667eea,stroke:#5a67d8,color:#fff
+    style A fill:#667eea,stroke:#5a67d8,color:#fff
+    </div>
+  </div>
+
+  <!-- 最终答案 -->
+  <div class="answer-section">
+    <h2>最终答案</h2>
+    <div class="answer-grid">
+      <div class="answer-card">
+        <div class="answer-name">张</div>
+        <div class="answer-role">🔬 研发</div>
+      </div>
+      <div class="answer-card">
+        <div class="answer-name">王</div>
+        <div class="answer-role">🛡️ 安保</div>
+      </div>
+      <div class="answer-card">
+        <div class="answer-name">李</div>
+        <div class="answer-role">💼 销售</div>
+      </div>
+      <div class="answer-card">
+        <div class="answer-name">赵</div>
+        <div class="answer-role">📋 行政管理</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#ebf8ff',
+      primaryTextColor: '#2d3748',
+      primaryBorderColor: '#90cdf4',
+      lineColor: '#667eea',
+      secondaryColor: '#f0fff4',
+      tertiaryColor: '#faf5ff'
+    },
+    flowchart: { curve: 'basis', padding: 20 }
+  });
+</script>
+</body>
+</html>
