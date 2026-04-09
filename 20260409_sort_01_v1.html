@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>公考逻辑推理：7排货架排序 | 全5问可视化精讲</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', 'Roboto', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #1e293b;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            padding: 1.8rem 2rem 2rem;
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f2b3d, #1e4a6e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin: 0 0 0.3rem;
+        }
+        .sub {
+            color: #475569;
+            border-left: 5px solid #3b82f6;
+            padding-left: 18px;
+            margin: 0.8rem 0 1.5rem;
+            font-size: 1rem;
+        }
+        /* 模块大标题 */
+        .module-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 1.5rem 0 0.8rem 0;
+            padding-bottom: 0.3rem;
+            border-bottom: 3px solid #3b82f6;
+            display: inline-block;
+            color: #0f172a;
+        }
+        .module-title:first-of-type {
+            margin-top: 0;
+        }
+        /* 原始题目区域 */
+        .original-question {
+            background: #fefce8;
+            border-left: 6px solid #eab308;
+            padding: 1rem 1.5rem;
+            border-radius: 1.2rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .original-question p {
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+        .question-list {
+            margin-top: 0.8rem;
+            padding-left: 1.2rem;
+        }
+        .question-list li {
+            margin: 0.4rem 0;
+        }
+        .conditions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: #f8fafc;
+            padding: 1.2rem;
+            border-radius: 1.5rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #e2e8f0;
+        }
+        .cond {
+            background: white;
+            border-radius: 1.2rem;
+            padding: 0.6rem 1rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-left: 4px solid #3b82f6;
+            flex: 1 1 200px;
+        }
+        .cond .num {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            border-radius: 30px;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            line-height: 24px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .answer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .answer-card {
+            background: #ffffff;
+            border-radius: 1.2rem;
+            border: 1px solid #e2edff;
+            padding: 0.8rem 1rem;
+            box-shadow: 0 4px 12px -6px rgba(0,0,0,0.05);
+        }
+        .answer-card h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.2rem;
+            color: #0c4e6e;
+            border-left: 4px solid #f97316;
+            padding-left: 12px;
+        }
+        .answer-val {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1e40af;
+            margin: 8px 0;
+        }
+        .explain {
+            font-size: 0.85rem;
+            color: #334155;
+            background: #fef9e8;
+            padding: 6px 10px;
+            border-radius: 14px;
+            margin-top: 8px;
+        }
+        .viz-section {
+            background: #fefefe;
+            border-radius: 1.5rem;
+            border: 1px solid #dce5f0;
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.2rem;
+        }
+        .viz-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.8rem;
+            color: #0f172a;
+            border-left: 4px solid #f97316;
+            padding-left: 12px;
+        }
+        .shelf {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+        .slot {
+            width: 85px;
+            background: #f1f5f9;
+            border-radius: 16px;
+            text-align: center;
+            padding: 12px 4px;
+            font-weight: 600;
+            border: 1px solid #cbd5e1;
+            transition: 0.1s;
+        }
+        .slot.highlight {
+            background: #fef9c3;
+            border-color: #eab308;
+            color: #854d0e;
+        }
+        .slot.impossible {
+            background: #ffe6e6;
+            border-color: #f87171;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        .slot-number {
+            font-size: 0.7rem;
+            color: #5b6e8c;
+            margin-bottom: 4px;
+        }
+        .goods {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+            font-size: 0.8rem;
+        }
+        .badge-sample {
+            display: inline-block;
+            width: 24px;
+            height: 18px;
+            background: #fef9c3;
+            border: 1px solid #eab308;
+            border-radius: 8px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        .badge-red {
+            background: #ffe6e6;
+            border-color: #f87171;
+        }
+        hr {
+            margin: 1.5rem 0;
+            border-color: #eef2ff;
+        }
+        .footnote {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-top: 1.5rem;
+        }
+        .branch-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        .branch-case {
+            background: #fef9f0;
+            border-radius: 1rem;
+            padding: 10px;
+            flex: 1;
+            min-width: 200px;
+            border-top: 4px solid #f97316;
+        }
+        .branch-title {
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        @media (max-width: 700px) {
+            .container { padding: 1rem; }
+            .slot { width: 65px; padding: 8px 2px; }
+            .goods { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📦 7排货架 · 逻辑排序</h1>
+    <div class="sub">文具、零食、调料、日用品、酒、粮油、饮料 —— 全5问可视化解析</div>
+
+    <!-- 模块1：真题 -->
+    <div class="module-title">📋 一、真题</div>
+    <div class="original-question">
+        <p>某超市从前到后整齐排列着7排货架，放置着文具、零食、调料、日用品、酒、粮油和饮料7类商品，每类商品占据一排。已知：</p>
+        <p>(1) 酒类排在调料类之前；<br>
+        (2) 文具类和调料类中间隔着3排；<br>
+        (3) 粮油类在零食类之后，中间隔着2排；<br>
+        (4) 日用品类紧挨在文具类前一排或者后一排。</p>
+        <div class="question-list">
+            <p><strong>1. 下列各项中，哪一类商品不可能排在第一排？</strong><br>
+            A. 文具类 &nbsp;&nbsp; B. 酒类 &nbsp;&nbsp; C. 粮油类 &nbsp;&nbsp; D. 日用品类</p>
+            <p><strong>2. 按照从前到后，下列哪项排列是可能的？</strong><br>
+            A. 文具类、零食类、日用品类、酒类、调料类、粮油类、饮料类<br>
+            B. 零食类、文具类、日用品类、粮油类、饮料类、调料类、酒类<br>
+            C. 日用品类、文具类、酒类、零食类、饮料类、调料类、粮油类<br>
+            D. 日用品类、文具类、零食类、酒类、粮油类、调料类、饮料类</p>
+            <p><strong>3. 零食类和文具类中间最多可能隔几排？</strong><br>
+            A. 2排 &nbsp;&nbsp; B. 3排 &nbsp;&nbsp; C. 4排 &nbsp;&nbsp; D. 5排</p>
+            <p><strong>4. 如果零食类排在第1排，那么下列哪项中的两类商品不可能是相邻的两排？</strong><br>
+            A. 日用品类和酒类 &nbsp;&nbsp; B. 零食类和日用品类<br>
+            C. 文具类和粮油类 &nbsp;&nbsp; D. 零食类和文具类</p>
+            <p><strong>5. 如果饮料类排在第1排，则以下哪项是可能的？</strong><br>
+            A. 粮油类排在调料类前一排<br>
+            B. 零食类排在文具类前一排<br>
+            C. 日用品类排在文具类前一排<br>
+            D. 酒类排在文具类前一排</p>
+        </div>
+    </div>
+
+    <!-- 模块2：已知条件 -->
+    <div class="module-title">🔍 二、已知条件</div>
+    <div class="conditions">
+        <div class="cond"><span class="num">①</span> 酒类排在调料类之前</div>
+        <div class="cond"><span class="num">②</span> 文具类和调料类中间隔着<strong>3排</strong> → 相距4个位置</div>
+        <div class="cond"><span class="num">③</span> 粮油类在零食类之后，中间隔着<strong>2排</strong> → 相距3个位置，零食在前</div>
+        <div class="cond"><span class="num">④</span> 日用品类紧挨文具类（前一排或后一排）</div>
+    </div>
+
+    <!-- 模块3：答案速览 -->
+    <div class="module-title">✅ 三、答案速览</div>
+    <div class="answer-grid">
+        <div class="answer-card"><h3>📌 第1问</h3><div class="answer-val">C. 粮油类</div><div class="explain">粮油必须在零食之后且隔2排，最小位置是第4排 → 不可能在第1排。</div></div>
+        <div class="answer-card"><h3>📌 第2问</h3><div class="answer-val">C</div><div class="explain">选项C：日用品、文具、酒、零食、饮料、调料、粮油 ✅ 满足所有条件。</div></div>
+        <div class="answer-card"><h3>📌 第3问</h3><div class="answer-val">D. 5排</div><div class="explain">零食和文具最大可分别位于1和7，中间隔着5排（位置2~6）✅ 存在可行解。</div></div>
+        <div class="answer-card"><h3>📌 第4问</h3><div class="answer-val">A. 日用品类和酒类</div><div class="explain">零食=1时，粮油=4，枚举所有合法构造，日用与酒永远无法相邻。</div></div>
+        <div class="answer-card"><h3>📌 第5问</h3><div class="answer-val">B. 零食类排在文具类前一排</div><div class="explain">饮料=1时，可构造出零食=2、文具=3的相邻排列，其他选项均不可能。</div></div>
+    </div>
+
+    <!-- 模块4：可视化解答（包含第1-5问的可视化） -->
+    <div class="module-title">🎨 四、可视化解答</div>
+
+    <!-- 第1问可视化 -->
+    <div class="viz-section">
+        <div class="viz-title">🚫 第1问：粮油类不可能在第1排</div>
+        <div style="text-align: center; margin-bottom: 10px;">零食位置 → 粮油位置 = 零食位置 + 3，最小零食=1 → 粮油最小=4</div>
+        <div id="shelfQ1" class="shelf"></div>
+        <div class="legend"><span class="badge-sample" style="background:#ffe6e6; border-color:#f87171;"></span> 粮油类不可能出现的位置（第1~3排）</div>
+    </div>
+
+    <!-- 第2问可视化 -->
+    <div class="viz-section">
+        <div class="viz-title">✅ 第2问：可能方案 (选项C)</div>
+        <div id="shelf2" class="shelf"></div>
+        <div class="legend">此排列满足所有条件，是可行解之一。</div>
+    </div>
+
+    <!-- 第3问可视化 -->
+    <div class="viz-section">
+        <div class="viz-title">📐 第3问：最大间隔 (零食1 文具7)</div>
+        <div id="shelf3" class="shelf"></div>
+        <div class="legend"><span class="badge-sample"></span> 零食与文具相隔5排</div>
+    </div>
+
+    <!-- 第4问可视化 -->
+    <div class="viz-section">
+        <div class="viz-title">🔗 第4问：零食=第1排 → 日用与酒永不相邻</div>
+        <div style="font-size: 0.9rem; margin-bottom: 12px;">根据文具与调料相隔4排，有三种可能位置组合，每种组合下日用和酒的位置均不相邻：</div>
+        <div class="branch-row" id="branchContainer"></div>
+        <div class="legend"><span class="badge-sample" style="background:#fef9c3;"></span> 日用品位置 &nbsp;|&nbsp; <span style="color:#b91c1c;">🍷</span> 酒的位置 &nbsp;|&nbsp; 两者均不相邻</div>
+    </div>
+
+    <!-- 第5问可视化 -->
+    <div class="viz-section">
+        <div class="viz-title">🥤 第5问：饮料=1 可行解 (零食在文具前一排)</div>
+        <div id="shelf5" class="shelf"></div>
+        <div class="legend">此排列中零食(第2排)紧挨在文具(第3排)前一排，符合选项B。</div>
+    </div>
+
+    <div class="footnote">
+        🌟 所有可视化均基于条件推导和枚举验证，完整覆盖5道题目。
+    </div>
+</div>
+
+<script>
+    // 第1问：展示粮油的最小位置为4，前3排不可能
+    function renderQ1() {
+        const container = document.getElementById('shelfQ1');
+        if (!container) return;
+        container.innerHTML = '';
+        for (let i = 1; i <= 7; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'slot';
+            if (i <= 3) {
+                slot.classList.add('impossible');
+                slot.innerHTML = `<div class="slot-number">第${i}排</div><div class="goods">🚫 粮油不可能</div>`;
+            } else {
+                slot.innerHTML = `<div class="slot-number">第${i}排</div><div class="goods">🌾 粮油可能</div>`;
+                if (i === 4) slot.style.background = "#dcfce7";
+            }
+            container.appendChild(slot);
+        }
+    }
+
+    // 第2、3、5问货架数据
+    const scheme2 = {1:"日用品",2:"文具",3:"酒",4:"零食",5:"饮料",6:"调料",7:"粮油"};
+    const scheme3 = {1:"零食",2:"酒",3:"调料",4:"粮油",5:"饮料",6:"日用品",7:"文具"};
+    const scheme5 = {1:"饮料",2:"零食",3:"文具",4:"日用品",5:"粮油",6:"酒",7:"调料"};
+
+    function renderShelf(containerId, mapping, highlightPair = null) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+        for (let i = 1; i <= 7; i++) {
+            const goods = mapping[i];
+            const slot = document.createElement('div');
+            slot.className = 'slot';
+            if (highlightPair && (i === highlightPair[0] || i === highlightPair[1])) {
+                slot.classList.add('highlight');
+            }
+            slot.innerHTML = `<div class="slot-number">第${i}排</div><div class="goods">${goods}</div>`;
+            container.appendChild(slot);
+        }
+    }
+
+    // 第4问：三种分支情况（文具与调料相隔4排），零食=1固定，粮油=4固定
+    function renderQ4() {
+        const container = document.getElementById('branchContainer');
+        if (!container) return;
+        container.innerHTML = '';
+
+        const branches = [
+            { name: "分支A：文具2, 调料6", desc: "日用品=3, 酒=5", positions: {日用:3, 酒:5}, valid: true },
+            { name: "分支B：文具3, 调料7", desc: "日用品=2, 酒=5(或6)", positions: {日用:2, 酒:5}, valid: true },
+            { name: "分支C：文具7, 调料3", desc: "日用品=6, 酒=2", positions: {日用:6, 酒:2}, valid: true }
+        ];
+
+        branches.forEach(b => {
+            const branchDiv = document.createElement('div');
+            branchDiv.className = 'branch-case';
+            branchDiv.innerHTML = `
+                <div class="branch-title">📌 ${b.name}</div>
+                <div style="display: flex; justify-content: space-around; margin: 10px 0;">
+                    <div>📍 日用品: 第${b.positions.日用}排</div>
+                    <div>🍷 酒: 第${b.positions.酒}排</div>
+                </div>
+                <div style="font-size:0.8rem; background:#fff0db; border-radius: 12px; padding: 6px; text-align:center;">
+                    ${Math.abs(b.positions.日用 - b.positions.酒) !== 1 ? '❌ 不相邻（满足条件）' : '⚠️ 相邻（矛盾）'}
+                </div>
+                <div style="font-size:0.7rem; margin-top:8px;">${b.desc}</div>
+            `;
+            container.appendChild(branchDiv);
+        });
+    }
+
+    renderQ1();
+    renderShelf('shelf2', scheme2);
+    renderShelf('shelf3', scheme3, [1,7]);
+    renderShelf('shelf5', scheme5);
+    renderQ4();
+
+    // 为第3问添加额外说明
+    const shelf3Parent = document.getElementById('shelf3').parentNode;
+    const infoDiv = document.createElement('div');
+    infoDiv.style.textAlign = 'center';
+    infoDiv.style.fontSize = '0.75rem';
+    infoDiv.style.marginTop = '8px';
+    infoDiv.style.color = '#b45309';
+    infoDiv.innerText = '零食(第1排) ↔ 文具(第7排)  中间隔了2,3,4,5,6 共5排 ✔';
+    shelf3Parent.appendChild(infoDiv);
+</script>
+</body>
+</html>
