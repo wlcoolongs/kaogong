@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>公考逻辑推理：张王李赵岗位分配 | 可视化精讲</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', 'Roboto', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #1e293b;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            padding: 1.8rem 2rem 2rem;
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f2b3d, #1e4a6e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin: 0 0 0.3rem;
+        }
+        .sub {
+            color: #475569;
+            border-left: 5px solid #3b82f6;
+            padding-left: 18px;
+            margin: 0.8rem 0 1.5rem;
+            font-size: 1rem;
+        }
+        .module-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 1.5rem 0 0.8rem 0;
+            padding-bottom: 0.3rem;
+            border-bottom: 3px solid #3b82f6;
+            display: inline-block;
+            color: #0f172a;
+        }
+        .module-title:first-of-type {
+            margin-top: 0;
+        }
+        /* 真题区域 */
+        .original-question {
+            background: #fefce8;
+            border-left: 6px solid #eab308;
+            padding: 1rem 1.5rem;
+            border-radius: 1.2rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .original-question p {
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+        .conditions-vertical {
+            background: #f8fafc;
+            border-radius: 1.5rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 0;
+        }
+        .cond-row {
+            padding: 0.8rem 1.2rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .cond-row:last-child {
+            border-bottom: none;
+        }
+        .cond-num {
+            display: inline-flex;
+            background: #3b82f6;
+            color: white;
+            border-radius: 30px;
+            width: 28px;
+            height: 28px;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .cond-text {
+            flex: 1;
+            line-height: 1.4;
+        }
+        .answer-vertical {
+            background: #ffffff;
+            border-radius: 1.2rem;
+            border: 1px solid #e2edff;
+            margin-bottom: 1.2rem;
+            overflow: hidden;
+        }
+        .answer-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            padding: 0.8rem 1.2rem;
+            border-bottom: 1px solid #eef2ff;
+            gap: 12px;
+        }
+        .answer-row:last-child {
+            border-bottom: none;
+        }
+        .answer-q {
+            font-weight: 800;
+            min-width: 70px;
+            color: #0c4e6e;
+            background: #eef2ff;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        .answer-value {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #1e40af;
+            min-width: 100px;
+        }
+        .answer-detail {
+            color: #475569;
+            font-size: 0.85rem;
+            flex: 1;
+        }
+        .viz-section {
+            background: #fefefe;
+            border-radius: 1.5rem;
+            border: 1px solid #dce5f0;
+            margin-bottom: 1.8rem;
+            padding: 1rem 1.2rem;
+        }
+        .viz-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.8rem;
+            color: #0f172a;
+            border-left: 4px solid #f97316;
+            padding-left: 12px;
+        }
+        .step-analysis {
+            background: #f9fafb;
+            border-radius: 1rem;
+            padding: 0.8rem 1.2rem;
+            margin: 1rem 0 0.8rem;
+            font-size: 0.92rem;
+            line-height: 1.55;
+            color: #1e293b;
+            border-left: 3px solid #3b82f6;
+        }
+        .step-analysis strong {
+            color: #0c4e6e;
+        }
+        .step-analysis ul, .step-analysis ol {
+            margin: 0.3rem 0 0.3rem 1.2rem;
+            padding-left: 0;
+        }
+        .step-analysis li {
+            margin: 0.2rem 0;
+        }
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        .matrix-table th, .matrix-table td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+        .matrix-table th {
+            background: #f1f5f9;
+            font-weight: 700;
+        }
+        .check-yes {
+            background: #dcfce7;
+            color: #15803d;
+            font-weight: bold;
+            border-radius: 30px;
+            display: inline-block;
+            width: 32px;
+            line-height: 32px;
+        }
+        .branch-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        .branch {
+            background: #fef9f0;
+            border-radius: 1rem;
+            padding: 12px;
+            flex: 1;
+            min-width: 220px;
+            border-top: 4px solid #f97316;
+        }
+        .branch.conflict {
+            background: #ffe9e9;
+            border-top-color: #dc2626;
+        }
+        .branch-title {
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .final-answer {
+            background: #e6f7e6;
+            border-radius: 1rem;
+            padding: 12px;
+            text-align: center;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .option {
+            background: #f8fafc;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            border: 1px solid #cbd5e1;
+        }
+        .option.correct {
+            background: #22c55e;
+            color: white;
+            border-color: #15803d;
+        }
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 12px;
+            font-size: 0.75rem;
+        }
+        .footnote {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-top: 1.5rem;
+        }
+        @media (max-width: 700px) {
+            .container { padding: 1rem; }
+            .matrix-table th, .matrix-table td { padding: 6px 3px; font-size: 0.7rem; }
+            .option { padding: 4px 12px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🧑‍💼 朴素逻辑 · 张王李赵岗位分配</h1>
+    <div class="sub">行政管理、销售、研发、安保 —— 条件推理 + 可视化分支法</div>
+
+    <!-- 模块1：真题 -->
+    <div class="module-title">📋 一、真题</div>
+    <div class="original-question">
+        <p>大学毕业的张、王、李、赵4人应聘到了同一家大型公司，每人负责一项工作，其中一人做行政管理，一人做销售，一人做研发，另一人做安保。已知：</p>
+        <p>① 张不做行政管理，也不做安保；<br>
+        ② 王不做行政管理，也不做研发；<br>
+        ③ 如果张没有做研发，那么赵也没有做行政管理；<br>
+        ④ 李不做行政管理，也不做安保；<br>
+        ⑤ 赵不做研发，也不做安保。</p>
+        <p><strong>由此可以推出：</strong><br>
+        A. 张做销售，李做研发<br>
+        B. 赵做研发，李做销售<br>
+        C. 李做销售，张做研发<br>
+        D. 李做研发，赵做安保</p>
+    </div>
+
+    <!-- 模块2：答案速览 -->
+    <div class="module-title">✅ 二、答案速览</div>
+    <div class="answer-vertical">
+        <div class="answer-row">
+            <span class="answer-q">正确选项</span>
+            <span class="answer-value">C. 李做销售，张做研发</span>
+            <span class="answer-detail">唯一满足所有条件的分配。</span>
+        </div>
+    </div>
+
+    <!-- 模块3：已知条件 -->
+    <div class="module-title">🔍 三、已知条件</div>
+    <div class="conditions-vertical">
+        <div class="cond-row"><span class="cond-num">①</span><span class="cond-text">张 ≠ 行政管理，张 ≠ 安保 → 张 ∈ {销售, 研发}</span></div>
+        <div class="cond-row"><span class="cond-num">②</span><span class="cond-text">王 ≠ 行政管理，王 ≠ 研发 → 王 ∈ {销售, 安保}</span></div>
+        <div class="cond-row"><span class="cond-num">③</span><span class="cond-text">如果张没有做研发，那么赵也没有做行政管理 ⇔ 张=研发 或 赵≠行政管理</span></div>
+        <div class="cond-row"><span class="cond-num">④</span><span class="cond-text">李 ≠ 行政管理，李 ≠ 安保 → 李 ∈ {销售, 研发}</span></div>
+        <div class="cond-row"><span class="cond-num">⑤</span><span class="cond-text">赵 ≠ 研发，赵 ≠ 安保 → 赵 ∈ {行政管理, 销售}</span></div>
+    </div>
+
+    <!-- 模块4：可视化推理 -->
+    <div class="module-title">🎨 四、可视化推理（分支法 + 表格）</div>
+
+    <!-- 第一步：初始可能性表格 -->
+    <div class="viz-section">
+        <div class="viz-title">📊 步骤1：根据条件①、②、④、⑤列出每人可能岗位</div>
+        <div class="step-analysis">
+            <ul>
+                <li>张：由① → 只能是销售或研发</li>
+                <li>王：由② → 只能是销售或安保</li>
+                <li>李：由④ → 只能是销售或研发</li>
+                <li>赵：由⑤ → 只能是行政管理或销售</li>
+            </ul>
+        </div>
+        <table class="matrix-table">
+            <thead><tr><th>人员</th><th>行政管理</th><th>销售</th><th>研发</th><th>安保</th></tr></thead>
+            <tbody>
+                <tr><td>张</td><td style="background:#ffe6e6;">❌</td><td style="background:#dcfce7;">✓</td><td style="background:#dcfce7;">✓</td><td style="background:#ffe6e6;">❌</td></tr>
+                <tr><td>王</td><td style="background:#ffe6e6;">❌</td><td style="background:#dcfce7;">✓</td><td style="background:#ffe6e6;">❌</td><td style="background:#dcfce7;">✓</td></tr>
+                <tr><td>李</td><td style="background:#ffe6e6;">❌</td><td style="background:#dcfce7;">✓</td><td style="background:#dcfce7;">✓</td><td style="background:#ffe6e6;">❌</td></tr>
+                <tr><td>赵</td><td style="background:#dcfce7;">✓</td><td style="background:#dcfce7;">✓</td><td style="background:#ffe6e6;">❌</td><td style="background:#ffe6e6;">❌</td></tr>
+            </tbody>
+        </table>
+        <div class="legend">✓ 可能 &nbsp;&nbsp; ❌ 排除</div>
+    </div>
+
+    <!-- 分支假设 -->
+    <div class="viz-section">
+        <div class="viz-title">🔀 步骤2：利用条件③进行分支假设</div>
+        <div class="step-analysis">
+            <strong>条件③：如果张没有做研发，则赵没有做行政管理。</strong> 等价于：<strong>张=研发 或 赵≠行政管理</strong>。<br>
+            采用假设法，分两种情况：
+        </div>
+        <div class="branch-box" id="branchContainer"></div>
+    </div>
+
+    <!-- 唯一解表格 -->
+    <div class="viz-section">
+        <div class="viz-title">✅ 步骤3：唯一解分配表</div>
+        <div class="step-analysis">
+            <strong>推理结论：</strong> 假设②（张=销售）导致矛盾，因此只有假设①（张=研发）成立。<br>
+            推导过程：<br>
+            &nbsp;&nbsp;• 张=研发 → 剩余岗位：行政、销售、安保<br>
+            &nbsp;&nbsp;• 李 ∈ {销售,研发} → 李=销售<br>
+            &nbsp;&nbsp;• 王 ∈ {销售,安保} → 王=安保<br>
+            &nbsp;&nbsp;• 赵 ∈ {行政,销售} → 赵=行政<br>
+            得到唯一分配：<strong>张→研发，王→安保，李→销售，赵→行政管理</strong>。
+        </div>
+        <table class="matrix-table">
+            <thead><tr><th>人员</th><th>最终岗位</th></tr></thead>
+            <tbody>
+                <tr><td>张</td><td style="background:#dcfce7; font-weight:800;">研发</td></tr>
+                <tr><td>王</td><td style="background:#dcfce7; font-weight:800;">安保</td></tr>
+                <tr><td>李</td><td style="background:#dcfce7; font-weight:800;">销售</td></tr>
+                <tr><td>赵</td><td style="background:#dcfce7; font-weight:800;">行政管理</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 选项验证 -->
+    <div class="viz-section">
+        <div class="viz-title">🎯 步骤4：验证选项</div>
+        <div class="step-analysis">
+            <ul>
+                <li><strong>A. 张做销售，李做研发</strong> → 与实际（张研发、李销售）不符 ❌</li>
+                <li><strong>B. 赵做研发，李做销售</strong> → 赵实际是行政，不是研发 ❌</li>
+                <li><strong>C. 李做销售，张做研发</strong> → 与实际完全一致 ✅</li>
+                <li><strong>D. 李做研发，赵做安保</strong> → 李实际销售，赵行政 ❌</li>
+            </ul>
+        </div>
+        <div class="options">
+            <div class="option">A. 张做销售，李做研发</div>
+            <div class="option">B. 赵做研发，李做销售</div>
+            <div class="option correct">C. 李做销售，张做研发</div>
+            <div class="option">D. 李做研发，赵做安保</div>
+        </div>
+        <div class="final-answer">
+            🌟 因此，正确选项是 <strong>C. 李做销售，张做研发</strong> 🌟
+        </div>
+    </div>
+
+    <div class="footnote">
+        📌 本题核心：利用假言命题（条件③）进行分支假设，排除矛盾分支，得到唯一解。
+    </div>
+</div>
+
+<script>
+    // 动态渲染分支图
+    function renderBranches() {
+        const container = document.getElementById('branchContainer');
+        if (!container) return;
+        container.innerHTML = '';
+
+        // 分支1：张=研发
+        const branch1 = document.createElement('div');
+        branch1.className = 'branch';
+        branch1.innerHTML = `
+            <div class="branch-title">✅ 假设①：张 = 研发</div>
+            <div style="font-size:0.85rem; margin-top:5px;">
+                • 张=研发 → 剩余岗位：行政、销售、安保<br>
+                • 李 ∈ {销售,研发} → 李=销售<br>
+                • 王 ∈ {销售,安保} → 王=安保<br>
+                • 赵 ∈ {行政,销售} → 赵=行政<br>
+                <strong style="color:#15803d;">✔ 无矛盾，得到唯一解</strong>
+            </div>
+        `;
+
+        // 分支2：张=销售
+        const branch2 = document.createElement('div');
+        branch2.className = 'branch conflict';
+        branch2.innerHTML = `
+            <div class="branch-title">❌ 假设②：张 = 销售</div>
+            <div style="font-size:0.85rem; margin-top:5px;">
+                • 张=销售 → 则张≠研发 → 条件③触发：赵≠行政<br>
+                • 赵 ∈ {行政,销售} 且 赵≠行政 → 赵=销售<br>
+                • 张和赵同时做销售 → <strong style="color:#b91c1c;">冲突！</strong><br>
+                ∴ 假设②不成立
+            </div>
+        `;
+
+        container.appendChild(branch1);
+        container.appendChild(branch2);
+    }
+
+    renderBranches();
+</script>
+</body>
+</html>
