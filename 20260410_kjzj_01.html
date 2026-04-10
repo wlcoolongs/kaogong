@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>中级会计实务：长期股权投资解读 | 题型全解析</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #f0f7ff;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.5;
+            color: #1e2a3e;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            overflow: hidden;
+            padding: 2rem 2rem 3rem 2rem;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e3c72, #2b4c7c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            border-left: 5px solid #2c7da0;
+            padding-left: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .sub {
+            color: #4a627a;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            border-bottom: 1px solid #e2edf7;
+            padding-bottom: 0.75rem;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 1.8rem 0 1rem 0;
+            color: #1e4668;
+            display: inline-block;
+            border-bottom: 3px solid #7fcdff;
+            padding-bottom: 0.2rem;
+        }
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.8rem 0;
+            color: #2c5a7a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge {
+            background: #2c7da0;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: normal;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin: 1.5rem 0;
+            padding: 1.2rem 1.8rem;
+            border: 1px solid #e6f0fa;
+            transition: all 0.2s;
+        }
+        .card:hover {
+            border-color: #bdd9ff;
+            box-shadow: 0 8px 20px rgba(0, 20, 50, 0.08);
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 1.5rem;
+        }
+        .tip {
+            background: #eef6fc;
+            border-left: 5px solid #2c7da0;
+            padding: 1rem 1.5rem;
+            border-radius: 18px;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: #fef8e7;
+            border-left: 5px solid #f4b942;
+            padding: 1rem 1.5rem;
+            border-radius: 18px;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+        .example-title {
+            font-weight: 700;
+            color: #c97e00;
+            margin-bottom: 0.5rem;
+        }
+        .formula {
+            background: #f9f3e3;
+            font-family: 'Courier New', monospace;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            display: inline-block;
+            font-weight: 500;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        th {
+            background: #e2eff9;
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            border-bottom: 1px solid #e9edf2;
+            padding: 10px 10px;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 20px 0;
+            background: #fbfefd;
+            border-radius: 20px;
+            padding: 12px;
+            overflow-x: auto;
+        }
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: #6c86a3;
+            border-top: 1px solid #e0ecf5;
+            padding-top: 1.5rem;
+        }
+        @media (max-width: 680px) {
+            .container { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; }
+            .card { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📊 长期股权投资 · 题型全景解读</h1>
+    <div class="sub">中级会计实务 | 初始计量 · 权益法 · 转换 · 处置 | 典型例题解析</div>
+
+    <!-- 1. 全景知识架构图 -->
+    <h2>🧭 知识全景架构图</h2>
+    <div class="card">
+        <div class="mermaid">
+            mindmap
+              root((长期股权投资))
+                初始计量
+                  同一控制下企业合并
+                    账面价值份额 + 原商誉
+                    合并费用 → 管理费用
+                  非同一控制下企业合并
+                    付出对价公允价值
+                    合并费用 → 管理费用
+                  非企业合并方式
+                    公允对价 + 交易费用
+                后续计量
+                  成本法
+                    适用范围: 控制(子公司)
+                    股利确认投资收益
+                    减值不得转回
+                  权益法
+                    适用范围: 共同控制/重大影响
+                    初始调整(负商誉调增)
+                    被投资方净利润变动 → 损益调整
+                    其他综合收益变动 → 其他综合收益
+                    其他权益变动 → 资本公积
+                    宣告现金股利 → 冲减账面
+                核算方法转换
+                  公允价值→权益法
+                  公允价值→成本法
+                  权益法→成本法
+                  成本法→权益法
+                  权益法→公允价值
+                处置
+                  成本法处置: 差额→投资收益
+                  权益法处置: 资本公积/其他综合收益结转
+        </div>
+        <div class="tip">💡 全景导图：明确长投的“取得—持有—转换—处置”全流程，重点把握初始成本差异与权益法四大调整。</div>
+    </div>
+
+    <!-- 2. 初始计量题型 + 例题展示 -->
+    <h2>🎯 初始计量题型 · 三步判断法</h2>
+    <div class="card">
+        <div class="example-box">
+            <div class="example-title">📖 典型例题</div>
+            <p>A公司和B公司为同一集团下的两个子公司。2×19年6月30日，A公司以一项固定资产作为对价取得B公司80%的股权，另支付审计咨询费用80万元。该固定资产原值900万元，已提折旧450万元，当日公允价值700万元。B公司相对于最终控制方而言的可辨认净资产账面价值为900万元，公允价值为1000万元。则A公司取得该项长期股权投资的初始投资成本为多少？</p>
+        </div>
+        <div class="mermaid">
+            flowchart LR
+            A[属于同一控制下企业合并] --> B[初始投资成本 = B公司账面价值 × 持股比例]
+            B --> C[900万元 × 80% = 720万元]
+            C --> D[审计咨询费80万元 → 管理费用]
+            D --> E[正确答案：720万元]
+        </div>
+        <div class="tip">📌 解析思路：同一控制下合并，初始成本按被合并方账面净资产份额确定，合并直接费用计入当期损益（管理费用）。</div>
+        <div class="mermaid">
+            flowchart TD
+            Start([开始：取得长投]) --> Type{取得方式}
+            Type -->|同一控制下合并| Same[同一控制下]
+            Type -->|非同一控制下合并| NotSame[非同一控制下]
+            Type -->|非企业合并方式| NoMerge[非合并方式]
+
+            Same --> S1[初始成本 = 最终控制方账面净资产份额 + 原商誉]
+            S1 --> S2[合并审计等费用 → 管理费用]
+            S2 --> S3[发行权益证券佣金→冲减资本公积]
+
+            NotSame --> N1[初始成本 = 付出对价的公允价值]
+            N1 --> N2[合并审计等费用 → 管理费用]
+            N2 --> N3[发行证券佣金→冲减资本公积]
+
+            NoMerge --> M1[初始成本 = 公允对价 + 交易费用]
+            M1 --> M2[交易费用计入初始成本]
+
+            S3 --> Done([得出初始投资成本])
+            N3 --> Done
+            M2 --> Done
+        </div>
+    </div>
+
+    <!-- 3. 后续计量·权益法四大变动 -->
+    <h2>⚙️ 后续计量 · 权益法“四大变动”</h2>
+    <div class="card">
+        <div class="example-box">
+            <div class="example-title">📖 典型例题</div>
+            <p>甲公司对乙公司的长期股权投资采用权益法核算，乙公司发生的下列各项交易或事项中，将影响甲公司资产负债表“长期股权投资”项目列报金额的有哪些？</p>
+            <p>A. 收到用于补偿已发生费用的政府补助100万元<br>
+            B. 宣告分派现金股利1000万元<br>
+            C. 其他债权投资公允价值增加50万元<br>
+            D. 其他权益工具投资公允价值减少30万元</p>
+        </div>
+        <div class="mermaid">
+            flowchart TD
+            A[乙公司的交易或事项] --> B{是否影响乙公司所有者权益总额?}
+            B -->|是| C[影响甲公司长投账面价值]
+            B -->|否| D[不影响甲公司长投账面价值]
+            
+            A -.->|选项A| E[收到政府补助计入当期损益]
+            E -->|影响净利润| F[→ 影响乙公司所有者权益]
+            F --> C
+            
+            A -.->|选项B| G[宣告分派现金股利]
+            G -->|减少留存收益| H[→ 影响乙公司所有者权益]
+            H --> C
+            
+            A -.->|选项C/D| I[其他债权/权益工具投资公允价值变动]
+            I -->|计入其他综合收益| J[→ 影响乙公司所有者权益]
+            J --> C
+        </div>
+        <div class="tip">✅ 答案：A、B、C、D均正确。凡是影响被投资方所有者权益总额的事项，投资方均需按持股比例调整长期股权投资账面价值。</div>
+        
+        <div class="mermaid">
+            flowchart TD
+            A[初始投资成本调整] --> A1{成本 vs 可辨认净资产份额}
+            A1 -->|成本小于份额| A2[调增长投账面价值<br>差额计入营业外收入]
+            A1 -->|成本大于份额| A3[不调整，内含商誉]
+
+            B[被投资方净利润变动] --> B1[确认投资收益]
+            B1 --> B2[需调整净利润：]
+            B2 --> B3[· 投资时点公允与账面差异]
+            B3 --> B4[· 未实现内部交易损益抵销]
+
+            C[被投资方其他综合收益变动] --> C1[按持股比例确认<br>其他综合收益]
+
+            D[被投资方其他权益变动] --> D1[按持股比例确认<br>资本公积-其他资本公积]
+
+            E[被投资方宣告现金股利] --> E1[冲减长期股权投资账面价值]
+
+            A2 & A3 & B4 & C1 & D1 & E1 --> F[影响长期股权投资账面价值]
+        </div>
+        <div class="grid-2">
+            <div class="tip">🔍 关键点：权益法下长投账面随被投资方所有者权益变化而同向调整，净利润需经过“两个调整”（公允口径+内部交易抵销）。</div>
+            <div class="tip">💡 注意：宣告现金股利时，被投资方所有者权益减少，投资方应冲减长投账面价值，同时确认应收股利。</div>
+        </div>
+    </div>
+
+    <!-- 4. 核算方法转换：五条核心路径 -->
+    <h2>🔄 核算方法转换 · 五条核心路径</h2>
+    <div class="card">
+        <div class="example-box">
+            <div class="example-title">📖 典型例题</div>
+            <p>甲公司2×23年1月1日取得乙公司10%股权，作为交易性金融资产核算，公允价值500万元。2×24年1月1日，甲公司以2500万元购入乙公司70%股权，原10%股权公允价值变为600万元，合计持股80%取得控制权（非同一控制），乙公司当日可辨认净资产公允价值3000万元。计算甲公司个别报表中长期股权投资的初始成本及商誉。</p>
+        </div>
+        <div class="mermaid">
+            flowchart LR
+            FA[公允价值计量<br>金融资产 持股小于20%] -->|追加投资| EQ[权益法<br>持股20%~50%]
+            FA -->|追加投资取得控制| COST[成本法 持股大于50%]
+            EQ -->|追加投资| COST
+            COST -->|处置股权失去控制<br>但仍具重大影响| EQ
+            COST -->|处置股权且无重大影响| FA
+            EQ -->|处置股权失去重大影响| FA
+
+            style FA fill:#cfe8fc
+            style EQ fill:#fff2cc
+            style COST fill:#d5e8d4
+        </div>
+        <div class="tip">📌 解析：该例题属于“公允价值计量 → 成本法”路径。个别报表长投初始成本 = 原股权公允价值600万元 + 新增对价2500万元 = 3100万元；商誉 = 3100 - 3000×80% = 700万元。</div>
+
+        <h3>📌 转换1：公允价值 → 权益法 <span class="badge">追加投资</span></h3>
+        <div class="mermaid">
+            flowchart LR
+            A[原金融资产按公允价值重分类] --> B[差额计入当期损益或留存收益]
+            C[新增投资公允价值] --> D[初始成本 = 原公允价值 + 新增对价]
+            D --> E{比较初始成本与份额}
+            E -->|小于份额| F[调增长投 差额计入营业外收入]
+            E -->|大于份额| G[内含商誉不调整]
+        </div>
+
+        <h3>📌 转换2：权益法 → 成本法 <span class="badge">追加至控制</span></h3>
+        <div class="mermaid">
+            flowchart LR
+            A[原权益法下账面价值] --> B[新成本 = 原账面 + 新增对价公允价值]
+            C[原确认的其他综合收益/资本公积] --> D[暂不处理，待处置时结转]
+        </div>
+
+        <h3>📌 转换3：成本法 → 权益法 <span class="badge">失去控制 保留重大影响</span></h3>
+        <div class="mermaid">
+            flowchart TD
+            A[处置部分股权] --> B[确认处置损益]
+            B --> C[剩余股权由成本法转为权益法]
+            C --> D[追溯调整：比较剩余股权原投资成本与取得日可辨认净资产份额]
+            D --> E[负商誉调增长投 并计入留存收益]
+            D --> F[按权益法确认持有期间的损益变动]
+            F --> G[分录：借 长期股权投资 贷 留存收益/投资收益/资本公积]
+        </div>
+        <div class="tip">⚠️ 成本法转权益法是综合题最高频难点，需追溯调整被投资方自取得日至处置日的净利润、其他综合收益变动等。</div>
+    </div>
+
+    <!-- 5. 处置题型对比 + 例题 -->
+    <h2>📉 处置题型 · 成本法 vs 权益法</h2>
+    <div class="card">
+        <div class="example-box">
+            <div class="example-title">📖 典型例题</div>
+            <p>处置采用权益法核算的长期股权投资时，需要将原持有期间记入“资本公积——其他资本公积”科目的金额转出，计入投资收益。（　）</p>
+        </div>
+        <div class="mermaid">
+            flowchart TD
+            Disp[处置长期股权投资] --> Method{核算方法}
+            Method -->|成本法| CostD[处置价款与账面差额 → 投资收益]
+            Method -->|权益法| EquityD[处置价款与账面差额 → 投资收益]
+            EquityD --> Add1[原资本公积-其他资本公积 → 转入投资收益]
+            EquityD --> Add2[原其他综合收益 → 按规定转入留存收益或当期损益]
+        </div>
+        <div class="tip">✅ 答案：正确。权益法下原计入资本公积（其他资本公积）的金额在处置时应转入投资收益。</div>
+    </div>
+
+    <!-- 6. 综合案例串联 -->
+    <h2>💼 综合案例串联 · 多步骤取得+合并调整</h2>
+    <div class="card">
+        <div class="example-box">
+            <div class="example-title">📖 典型例题</div>
+            <p>甲公司2×23年1月1日取得乙公司10%股权，作为交易性金融资产核算，公允价值500万元。2×23年乙公司实现净利润300万元。2×24年1月1日，甲公司以2500万元购入乙公司70%股权，原10%股权公允价值变为600万元，合计持股80%取得控制权（非同一控制），乙公司当日可辨认净资产公允价值3000万元。2×24年乙公司实现净利润500万元，宣告分配现金股利300万元。要求：<br>
+            ① 计算2×24年1月1日个别报表中长期股权投资的初始成本及商誉。<br>
+            ② 计算2×24年年末合并报表中应调整的长期股权投资余额。</p>
+        </div>
+        <div class="mermaid">
+            flowchart TD
+            subgraph Step1[2×23年1月1日]
+                A[取得乙公司10%股权<br>交易性金融资产500万元]
+            end
+            subgraph Step2[2×24年1月1日 追加至80%控制]
+                B1[原10%股权公允价600万元重分类]
+                B2[新增70%股权支付2500万元]
+                B3[长投初始成本 = 600+2500 = 3100万元]
+                B4[乙公司可辨认净资产公允3000万×80%=2400万]
+                B5[商誉 = 3100 - 2400 = 700万元]
+            end
+            subgraph Step3[2×24年末 成本法下后续及合并调整]
+                C1[乙公司净利500万, 宣告现金股利300万]
+                C2[成本法确认投资收益 300×80% = 240万]
+                C3[年末合并报表 成本法转权益法调整]
+                C4[调整后长投余额 = 3100 -300×80% +500×80% = 3260万元]
+            end
+            Step1 --> Step2 --> Step3
+        </div>
+        <div class="tip">🌟 答案：① 初始成本3100万元，商誉700万元；② 合并报表调整后长投余额3260万元。公式：初始成本 - 宣告股利×持股比例 + 净利润×持股比例。</div>
+    </div>
+
+    <!-- 7. 客观题速查表 -->
+    <h2>📝 客观题·高频考点速查表</h2>
+    <div class="card">
+        <table>
+            <thead>
+                <tr><th>题型</th><th>高频考点</th><th>可视化速记</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>单选题</td><td>初始投资成本计算</td><td>三步判断法流程图</td> </tr>
+                <tr><td>单选题</td><td>权益法下影响账面价值的因素</td><td>四大变动关系图</td> </tr>
+                <tr><td>多选题</td><td>合并费用的会计处理</td><td>同控/非同控→管理费用；非合并方式→成本</td> </tr>
+                <tr><td>多选题</td><td>权益法下需调整净利润的情形</td><td>投资时点公允≠账面 + 内部交易未实现</td> </tr>
+                <tr><td>判断题</td><td>长投减值可否转回</td><td>❌ 长期股权投资减值一经计提不得转回</td> </tr>
+                <tr><td>判断题</td><td>权益法处置时资本公积处理</td><td>转入投资收益</td> </tr>
+                <tr><td>综合题</td><td>成本法转权益法追溯调整</td><td>追溯五步骤流程</td> </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 8. 权益法净利润调整对比 -->
+    <h2>🧮 权益法净利润调整 · 可视化对比</h2>
+    <div class="grid-2">
+        <div class="card">
+            <h3 style="margin-top:0;">📌 投资时点公允与账面差异</h3>
+            <div class="mermaid">
+                flowchart LR
+                A[被投资方账面净利润] --> B{调整资产折旧摊销差异}
+                B --> C[按公允价值应计折旧或成本更高]
+                C --> D[调减净利润 = 公允折旧 - 账面折旧]
+                D --> E[调整后净利润 × 持股比例 = 投资收益]
+            </div>
+        </div>
+        <div class="card">
+            <h3 style="margin-top:0;">📌 内部交易未实现损益抵销</h3>
+            <div class="mermaid">
+                flowchart LR
+                A[顺流或逆流交易] --> B[未实现内部损益]
+                B --> C[调整被投资方净利润 = 账面净利润 - 未实现损益×持股比例]
+                C --> D[以后年度实现时加回]
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. 口诀总结 -->
+    <div class="tip" style="background:#fef7e0;">
+        💎 长期股权投资总结口诀：<strong>“同控账面非同控公允，权益法下四调整；成本法简单股利收益，转换追溯别记混；减值一律不许转回，处置结转全入损益。”</strong>
+    </div>
+
+    <!-- 10. 综合题解题逻辑模板 -->
+    <h2>✍️ 综合题解题逻辑模板</h2>
+    <div class="card">
+        <div class="mermaid">
+            flowchart TB
+            Start[阅读题干] --> StepA[识别取得方式<br>同一控制/非同一控制/分步]
+            StepA --> StepB[计算初始投资成本<br>注意合并费用及佣金]
+            StepB --> StepC{后续计量判断}
+            StepC -->|成本法| C1[确认股利收益+减值测试]
+            StepC -->|权益法| C2[计算调整后净利润<br>调整OCI/资本公积]
+            C2 --> C3[更新长投账面价值]
+            StepC --> Trans[若发生转换或处置]
+            Trans --> T1[确定转换路径]
+            T1 --> T2[追溯调整或重新计量]
+            T2 --> Final[得出最终损益影响及报表项目]
+            C1 --> Final
+            C3 --> Final
+        </div>
+        <div class="tip">✔️ 做题时按“取得→持有→转换/处置”三阶段，借助流程图分步落笔，可大幅提升正确率。</div>
+    </div>
+
+    <footer>
+        中级会计实务 · 长期股权投资可视化专题
+    </footer>
+</div>
+
+<script>
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        themeVariables: {
+            'background': '#ffffff',
+            'primaryColor': '#e1f0fa',
+            'primaryBorderColor': '#2c7da0',
+            'primaryTextColor': '#1e4668',
+            'lineColor': '#3b8db0',
+            'secondaryColor': '#fff2cc',
+            'tertiaryColor': '#d5e8d4',
+            'fontFamily': 'Segoe UI, Roboto, sans-serif'
+        },
+        flowchart: { useMaxWidth: true, htmlLabels: false, curve: 'basis' },
+        mindmap: { padding: 10 },
+        securityLevel: 'loose'
+    });
+</script>
+</body>
+</html>
